@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
+import CurrencyDisplay from './CurrencyDisplay'
 
-const withCurrency = (BaseComponent) => {
+const withCurrency = (BaseComponent) => 
     class Currency extends Component{
         constructor(){
             super()
@@ -24,8 +25,8 @@ const withCurrency = (BaseComponent) => {
                 }
             })
         }
-        handleOptionSelect = (evt) => {
-            const userValue = evt.target.value
+        handleOptionSelect = (e) => {
+            const userValue = e.target.value
             this.setState(() => {
                 return {
                     selectedCurrency: userValue,
@@ -54,10 +55,19 @@ const withCurrency = (BaseComponent) => {
                         <button onClick={this.handleAmountIncrease} className='add'>+</button>
                         <button onClick={this.handleAmountDecrease} className='minus'>-</button>
                     </div>
-                    <BaseComponent currency={currencyData[this.state.selectedCurrency]} amount={this.state.amount} />
+                    {this.state.currencyChosen ? (
+						<BaseComponent
+							currency={currencyData[this.state.selectedCurrency]}
+							amount={this.state.amount}
+						/>
+					) : (
+						<p>Please Select Currency</p>
+					)}
                 </div>
             )
         }
     }
 
-}
+const ExchangedCurrency = withCurrency(CurrencyDisplay)
+
+export default ExchangedCurrency
